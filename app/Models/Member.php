@@ -48,7 +48,7 @@ class Member extends Model
 
     public function getMaxLoanEligibleAttribute()
     {
-        $loanMultiplier = Setting::where('key', 'loan_multiplier')->first()->value ?? 2;
+        $loanMultiplier = (float) (Setting::where('key', 'loan_multiplier')->first()?->value ?? 2);
         return $this->total_investment * $loanMultiplier;
     }
 

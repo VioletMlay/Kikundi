@@ -34,8 +34,8 @@ Route::get('/health', function () {
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
-// Authenticated Routes
-Route::middleware('auth:sanctum')->group(function () {
+// Authenticated Routes (accepts both Sanctum token and web session)
+Route::middleware('auth:sanctum,web')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
 
