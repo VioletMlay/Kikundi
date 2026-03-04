@@ -1,12 +1,11 @@
 {
   "version": 2,
   "framework": null,
-  "installCommand": "curl -sS https://getcomposer.org/installer | php && php composer.phar install --no-dev --optimize-autoloader",
   "buildCommand": "echo 'skip'",
   "outputDirectory": "public",
   "functions": {
     "api/index.php": {
-      "runtime": "vercel-php@0.7.2"
+      "runtime": "vercel-php@0.7.3"
     }
   },
   "routes": [
