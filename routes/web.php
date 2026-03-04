@@ -1,9 +1,35 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Public Routes
 Route::get('/', fn() => view('welcome'));
+
+// Auth Routes
+Route::get('/login', fn() => view('auth.login'))->name('login')->middleware('guest');
+
+Route::post('/login', function (Request $request) {
+    $credentials = $request->validate([
+        'email'    => ['required', 'email'],
+        'password' => ['required'],
+    ]);
+
+    if (Auth::attempt($credentials, $request->boolean('remember'))) {
+        $request->session()->regenerate();
+        return redirect()->intended('/dashboard');
+    }
+
+    return back()->withErrors(['email' => 'These credentials do not match our records.'])->onlyInput('email');
+})->middleware('guest');
+
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/login');
+})->name('logout');
 
 // Protected Routes - Require Authentication
 Route::middleware(['auth'])->group(function () {

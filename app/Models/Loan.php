@@ -101,8 +101,8 @@ class Loan extends Model
         parent::boot();
 
         static::creating(function ($loan) {
-            $feePercentage = Setting::where('key', 'upfront_fee_percentage')->first()->value ?? 0.10;
-            $loanPeriodMonths = (int) (Setting::where('key', 'loan_period_months')->first()->value ?? 3);
+            $feePercentage = (float) (Setting::where('key', 'upfront_fee_percentage')->first()?->value ?? 0.10);
+            $loanPeriodMonths = (int) (Setting::where('key', 'loan_period_months')->first()?->value ?? 3);
 
             // Calculate upfront fee (10%)
             $loan->upfront_fee = $loan->loan_amount * $feePercentage;
